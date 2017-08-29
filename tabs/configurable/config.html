@@ -12,25 +12,26 @@
 <p>To demonstrate this, enter your name below to see it used in the tab. To change this later, use the Settings link - which re-open this page.</p>
   
 <form>
-  Your Name: <input type="text" name="yourName" onkeydown="setOkToSave(this)"></input>  
+  Your Name: <input id="userName" type="text" name="yourName"></input>  
 </form> 
   
-
+<p>Once you're ready, call a line of JavaScript to indicate to Teams that you're happy to continue:<br/>
+  <button class="btn btn-success" onclick="setOkToSave()">Do that now</button>
+  <p>
 <p>For more information about this code sample, read the associated blog post:</p>
 
 <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
 
 <script type="text/javascript">  
   
- var inputName;
-
+ 
 microsoftTeams.initialize();
 microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
   
    
        microsoftTeams.settings.setSettings({
          entityId: "configTab1",
-         contentUrl: "https://tomorgan.github.io/MSTeamsSamples/tabs/configurable/config.html?name=" + inputName,
+         contentUrl: "https://tomorgan.github.io/MSTeamsSamples/tabs/configurable/config.html?name=" + document.getElementById('userName').value,
          suggestedDisplayName: "ThoughtStuff Configurable Tab Sample",
          websiteUrl: "https://thoughtstuff.co.uk",
          removeUrl: "https://tomorgan.github.io/MSTeamsSamples/tabs/configurable/remove.html",
@@ -40,9 +41,8 @@ microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
     saveEvent.notifySuccess();
 });
 
-function setOkToSave(name) {
-    inputName = name.value;
-    microsoftTeams.settings.setValidityState(true);
+function setOkToSave() {
+     microsoftTeams.settings.setValidityState(true);
   return true;
 }  
   </script>
